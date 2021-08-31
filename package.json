@@ -1,0 +1,20 @@
+{
+  "name": "homemade-meal",
+  "version": "1.0.0",
+  "description": "This is the final project for Coyotiv School of Software Engineering. It is a platform that connects people who want to sell and buy healty homemade meals.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/selmanmestanli/homemade-meal.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/selmanmestanli/homemade-meal/issues"
+  },
+  "homepage": "https://github.com/selmanmestanli/homemade-meal#readme"
+}
