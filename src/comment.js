@@ -1,9 +1,9 @@
 class Comment {
   constructor(comment) {
-    this.comment = comment;
-    this.likedBy = [];
-    this.repliedBy = [];
-    this.author = ""
+    this.comment = comment
+    this.likedBy = []
+    this.repliedBy = []
+    this.author = ''
   }
 }
 

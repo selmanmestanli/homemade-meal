@@ -1,8 +1,8 @@
 class Photo {
   constructor(photoname) {
-    this.photoname = photoname;
-      this.likedBy = [];
-      this.addedBy = ""
+    this.photoname = photoname
+    this.likedBy = []
+    this.addedBy = ''
   }
 }
 

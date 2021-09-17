@@ -1,9 +1,9 @@
 class Reply {
   constructor(reply) {
-    this.reply = reply;
-      this.likedBy = [];
-      this.author = ""
+    this.reply = reply
+    this.likedBy = []
+    this.author = ''
   }
 }
 
-module.exports = Reply;
+module.exports = Reply
