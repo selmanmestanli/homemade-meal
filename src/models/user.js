@@ -21,7 +21,7 @@ class User {
 
   addPhoto(photo) {
     this.photos.push(photo)
-    photo.addedBy = this.name
+    // photo.addedBy = this.name
   }
 
   addComment(comment) {
@@ -36,13 +36,13 @@ class User {
   }
 
   likePhoto(photo) {
-    photo.likedBy.push(this)
-    this.likedPhotos.push(photo)
+    photo.likedBy.push(this.name)
+    this.likedPhotos.push(photo.photoname)
   }
 
   likeRecipe(recipe) {
-    recipe.likedBy.push(this)
-    this.likedRecipes.push(recipe)
+    recipe.likedBy.push(this.name)
+    this.likedRecipes.push(recipe.recipename)
   }
 
   likeComment(comment) {
