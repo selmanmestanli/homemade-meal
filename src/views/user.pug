@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  h1 #{user.name}
+  h2 (#{user.email})
+  p Bio: #{user.bio}
+  h2 Photos (#{user.photos.length})
+
+  each photo in user.photos
+    h3 #{photo.photoname}
+    if photo.likedBy.length == 0
+      p no likes yet!
+    else
+      p Liked by: #{photo.likedBy.map(user => user).join(', ')}
+
+  h2 Recipes (#{user.recipes.length})
+
+  each recipe in user.recipes
+    if user.recipes.length == 0
+      p no recipe yet!
+    else
+     p #{recipe.recipename}
+     
+  each recipe in user.recipes
+    if recipe.likedBy.length == 0
+      p no likes yet!
+    else
+      p Liked by: #{recipe.likedBy.map(user => user).join(', ')}
