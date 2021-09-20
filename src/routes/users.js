@@ -6,39 +6,46 @@ const User = require('../models/user')
 const Photo = require('../models/photo')
 const Recipe = require('../models/recipe')
 
-const selman = new User('selman', 'selman@gmail.com')
-const armagan = new User('armagan', 'armagan@gmail.com')
-
-const neslihan = new User('neslihan', 'neslihan@gmail.com')
-
-const berlinPhoto = new Photo('berlin.jpg')
-const munichPhoto = new Photo('munich.jpg')
-
-armagan.addPhoto(berlinPhoto)
-neslihan.addPhoto(munichPhoto)
-
-neslihan.likePhoto(berlinPhoto)
-selman.likePhoto(berlinPhoto)
-
-const recipeMucver = new Recipe('Mucver')
-armagan.addRecipe(recipeMucver)
-selman.likeRecipe(recipeMucver)
-
-const users = [selman, armagan, neslihan]
-
 /* GET users listing. */
-router.get('/', (req, res) => {
-  let result = users
+router.get('/', async (req, res) => {
+  const query = {}
 
   if (req.query.name) {
-    result = users.filter(user => user.name == req.query.name)
+    query.name = req.query.name
   }
 
-  res.send(result)
+  if (req.query.email) {
+    query.email = req.query.email
+  }
+
+  res.send(await User.find(query))
 })
 
-router.get('/:userId', (req, res) => {
-  const user = users[req.params.userId]
+router.get('/initialize', async (req, res) => {
+  const selman = await User.create({ name: 'selman', email: 'selman@gmail.com' })
+  const armagan = await User.create({ name: 'armagan', email: 'armagan@gmail.com' })
+  const neslihan = await User.create({ name: 'neslihan', email: 'neslihan@gmail.com' })
+
+  const berlinPhoto = await Photo.create({ photoname: 'berlin.jpg' })
+  const munichPhoto = await Photo.create({ photoname: 'munich.jpg' })
+
+  await armagan.addPhoto(berlinPhoto)
+  await neslihan.addPhoto(munichPhoto)
+
+  await neslihan.likePhoto(berlinPhoto)
+  await selman.likePhoto(berlinPhoto)
+
+  const recipeMucver = await Recipe.create({ recipename: 'Mucver' })
+
+  await armagan.addRecipe(recipeMucver)
+  await selman.likeRecipe(recipeMucver)
+
+  res.sendStatus(200)
+})
+
+router.get('/:userId', async (req, res) => {
+  // const user = users[req.params.userId]
+  const user = await User.findById(req.params.userId)
 
   if (user) res.render('user', { user })
   else res.sendStatus(404)
