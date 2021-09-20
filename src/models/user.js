@@ -1,27 +1,65 @@
-class User {
-  constructor(name, email, address, postCode) {
-    this.name = name
-    this.email = email
-    this.address = address
-    this.postCode = postCode
-    this.photos = []
-    this.recipes = []
-    this.comments = []
-    this.replies = []
-    this.likedPhotos = []
-    this.likedRecipes = []
-    this.likedComments = []
-    this.likedReplies = []
-  }
+const mongoose = require('mongoose')
+const autopopulate = require('mongoose-autopopulate')
 
-  addRecipe(recipe) {
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    unique: true,
+    required: true,
+  },
+  email: {
+    type: String,
+    unique: true,
+    required: true,
+  },
+  address: String,
+  postCode: Number,
+  photos: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Photo',
+      autopopulate: true,
+    },
+  ],
+  recipes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Recipe',
+      autopopulate: true,
+    },
+  ],
+  comments: [],
+  replies: [],
+  likedPhotos: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Photo',
+    },
+  ],
+  likedRecipes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Recipe',
+    },
+  ],
+  likedComments: [],
+  likedReplies: [],
+})
+class User {
+  async addRecipe(recipe) {
     this.recipes.push(recipe)
     recipe.addedBy = this.name
+
+    await recipe.save()
+    await this.save()
   }
 
-  addPhoto(photo) {
+  async addPhoto(photo) {
     this.photos.push(photo)
-    // photo.addedBy = this.name
+    photo.addedBy = this.name
+
+    await photo.save()
+    await this.save()
   }
 
   addComment(comment) {
@@ -35,14 +73,20 @@ class User {
     this.replies.push(comment, reply)
   }
 
-  likePhoto(photo) {
-    photo.likedBy.push(this.name)
-    this.likedPhotos.push(photo.photoname)
+  async likePhoto(photo) {
+    photo.likedBy.push(this)
+    this.likedPhotos.push(photo)
+
+    await photo.save()
+    await this.save()
   }
 
-  likeRecipe(recipe) {
-    recipe.likedBy.push(this.name)
-    this.likedRecipes.push(recipe.recipename)
+  async likeRecipe(recipe) {
+    recipe.likedBy.push(this)
+    this.likedRecipes.push(recipe)
+
+    await recipe.save()
+    await this.save()
   }
 
   likeComment(comment) {
@@ -56,4 +100,7 @@ class User {
   }
 }
 
-module.exports = User
+userSchema.loadClass(User)
+userSchema.plugin(autopopulate)
+
+module.exports = mongoose.model('User', userSchema)
