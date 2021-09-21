@@ -28,8 +28,20 @@ const userSchema = new mongoose.Schema({
       autopopulate: true,
     },
   ],
-  comments: [],
-  replies: [],
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Comment',
+      autopopulate: true,
+    },
+  ],
+  replies: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Reply',
+      autopopulate: true,
+    },
+  ],
   likedPhotos: [
     {
       type: mongoose.Schema.Types.ObjectId,
