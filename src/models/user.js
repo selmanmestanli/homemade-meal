@@ -84,15 +84,22 @@ class User {
     await this.save()
   }
 
-  addComment(comment) {
+  async addComment(comment) {
     this.comments.push(comment)
     comment.author = this.name
+
+    await comment.save()
+    await this.save()
   }
 
-  replyComment(comment, reply) {
+  async replyComment(comment, reply) {
     comment.repliedBy.push(this)
     reply.author = this.name
-    this.replies.push(comment, reply)
+    this.replies.push(reply)
+
+    await comment.save()
+    await reply.save()
+    await this.save()
   }
 
   async likePhoto(photo) {
@@ -111,14 +118,20 @@ class User {
     await this.save()
   }
 
-  likeComment(comment) {
+  async likeComment(comment) {
     comment.likedBy.push(this)
     this.likedComments.push(comment)
+
+    await comment.save()
+    await this.save()
   }
 
-  likeReply(reply) {
+  async likeReply(reply) {
     reply.likedBy.push(this)
     this.likedReplies.push(reply)
+
+    await reply.save()
+    await this.save()
   }
 }
 
