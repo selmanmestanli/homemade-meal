@@ -54,8 +54,18 @@ const userSchema = new mongoose.Schema({
       ref: 'Recipe',
     },
   ],
-  likedComments: [],
-  likedReplies: [],
+  likedComments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Comment',
+    },
+  ],
+  likedReplies: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Reply',
+    },
+  ],
 })
 class User {
   async addRecipe(recipe) {
