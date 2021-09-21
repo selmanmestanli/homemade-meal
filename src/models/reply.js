@@ -1,9 +1,17 @@
-class Reply {
-  constructor(reply) {
-    this.reply = reply
-    this.likedBy = []
-    this.author = ''
-  }
-}
+const mongoose = require('mongoose')
+const autopopulate = require('mongoose-autopopulate')
 
-module.exports = Reply
+const replySchema = new mongoose.Schema({
+  reply: String,
+  likedBy: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      autopopulate: true,
+    },
+  ],
+  author: String,
+})
+
+replySchema.plugin(autopopulate)
+module.exports = mongoose.model('Reply', replySchema)
