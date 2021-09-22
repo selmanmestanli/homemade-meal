@@ -19,10 +19,10 @@ block content
     if user.recipes.length == 0
       p no recipe yet!
     else
-     p #{recipe.recipename}
+      h3 #{recipe.recipename}
+      if recipe.likedBy.length == 0
+        p no likes yet!
+      else
+        p Liked by: #{recipe.likedBy.map(user => user.name).join(', ')}
 
-  each recipe in user.recipes
-    if recipe.likedBy.length == 0
-      p no likes yet!
     else
-      p Liked by: #{recipe.likedBy.map(user => user.name).join(', ')}
