@@ -2,12 +2,11 @@
   "name": "homemade-meal",
   "version": "0.0.1",
   "description": "This is the final project for Coyotiv School of Software Engineering. It is a platform that connects people who want to sell and buy healty homemade meals.",
-  "main": "src/index.js",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./bin/www",
     "lint": "lint-staged",
-    "prepare": "husky install",
-    "start": "node src/index.js"
+    "lint-all": "pretty-quick && eslint"
   },
   "husky": {
     "hooks": {
@@ -15,9 +14,12 @@
     }
   },
   "lint-staged": {
-    "./**/*.js": [
-      "prettier --write",
-      "eslint --fix"
+    "*.js": [
+      "pretty-quick --staged",
+      "eslint --fix"
+    ],
+    "*.+(json|css|md)": [
+      "pretty-quick --staged"
     ]
   },
   "repository": {
@@ -31,6 +33,16 @@
     "url": "https://github.com/selmanmestanli/homemade-meal/issues"
   },
   "homepage": "https://github.com/selmanmestanli/homemade-meal#readme",
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1",
+    "pug": "2.0.0-beta11",
+    "mongoose": "^5.9.29",
+    "mongoose-autopopulate": "^0.12.2"
+  },
   "devDependencies": {
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
@@ -41,6 +53,7 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "husky": "^7.0.2",
     "lint-staged": "^11.1.2",
-    "prettier": "^2.4.1"
+    "prettier": "^2.4.1",
+    "pretty-quick": "^2.0.2"
   }
 }
