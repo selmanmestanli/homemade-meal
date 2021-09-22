@@ -5,6 +5,8 @@ const router = express.Router()
 const User = require('../models/user')
 const Photo = require('../models/photo')
 const Recipe = require('../models/recipe')
+const Comment = require('../models/comment')
+const Reply = require('../models/reply')
 
 /* GET users listing. */
 router.get('/', async (req, res) => {
@@ -26,20 +28,44 @@ router.get('/initialize', async (req, res) => {
   const armagan = await User.create({ name: 'armagan', email: 'armagan@gmail.com' })
   const neslihan = await User.create({ name: 'neslihan', email: 'neslihan@gmail.com' })
 
-  const berlinPhoto = await Photo.create({ photoname: 'berlin.jpg' })
-  const munichPhoto = await Photo.create({ photoname: 'munich.jpg' })
+  const armaganKitchen = await Photo.create({ photoname: 'armaganKitchen.jpg' })
+  const neslihanKitchen = await Photo.create({ photoname: 'neslihanKitchen.jpg' })
+  const selmanKitchen = await Photo.create({ photoname: 'selmanKitchen.jpg' })
 
-  await armagan.addPhoto(berlinPhoto)
-  await neslihan.addPhoto(munichPhoto)
+  await armagan.addPhoto(armaganKitchen)
+  await neslihan.addPhoto(neslihanKitchen)
+  await selman.addPhoto(selmanKitchen)
 
-  await neslihan.likePhoto(berlinPhoto)
-  await selman.likePhoto(berlinPhoto)
+  await neslihan.likePhoto(armaganKitchen)
+  await selman.likePhoto(armaganKitchen)
+  await armagan.likePhoto(selmanKitchen)
+  await selman.likePhoto(neslihanKitchen)
 
   const recipeMucver = await Recipe.create({ recipename: 'Mucver' })
+  const recipeBakedSalmon = await Recipe.create({ recipename: 'Baked Salmon' })
+  const recipeFishAndChips = await Recipe.create({ recipename: 'Fish and Chips' })
 
   await armagan.addRecipe(recipeMucver)
   await selman.likeRecipe(recipeMucver)
 
+  await selman.addRecipe(recipeBakedSalmon)
+  await neslihan.likeRecipe(recipeBakedSalmon)
+
+  await neslihan.addRecipe(recipeFishAndChips)
+  await armagan.likeRecipe(recipeFishAndChips)
+  await selman.likeRecipe(recipeFishAndChips)
+
+  const commentSelman = await Comment.create({ comment: 'Taste my delicious baked Salmon' })
+  const commentSelman2 = await Comment.create({ comment: 'What do you think about my profile?' })
+  await selman.addComment(commentSelman)
+  await armagan.likeComment(commentSelman)
+  await selman.addComment(commentSelman2)
+  await neslihan.likeComment(commentSelman2)
+
+  const replyNeslihan = await Reply.create({ reply: 'Tastes great!' })
+  await neslihan.replyComment(commentSelman, replyNeslihan)
+  await selman.likeReply(replyNeslihan)
+  await armagan.likeReply(replyNeslihan)
   res.sendStatus(200)
 })
 
