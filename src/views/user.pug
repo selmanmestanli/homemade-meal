@@ -25,4 +25,14 @@ block content
       else
         p Liked by: #{recipe.likedBy.map(user => user.name).join(', ')}
 
+  h2 Comments (#{user.comments.length})
+
+  each comment in user.comments
+    if user.comments.length == 0
+      p no comment yet!
     else
+      h3 #{comment.comment}
+      if comment.likedBy.length == 0
+        p no likes yet!
+      else
+        p Liked by: #{comment.likedBy.map(user => user.name).join(', ')}
