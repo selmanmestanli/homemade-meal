@@ -1,0 +1,21 @@
+version: '3'
+services:
+  app:
+    image: homemade-meal
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      # - MONGODB_USERNAME=root
+      # - MONGODB_PASSWORD=agiIJHbsGA6Pdymq
+      # - MONGODB_DATABASE=selmanCoyotiv
+      - MONGODB_CONNECTION_STRING=mongodb://mongo/homemade-meal
+    ports:
+      - 3000:3000
+      - 35729:35729
+    volumes:
+      - ./src:/app/src
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
