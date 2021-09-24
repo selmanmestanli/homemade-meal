@@ -16,7 +16,7 @@ if (app.get('env') == 'development') {
   app.use(require('connect-livereload')())
   /* eslint-disable-next-line */
   require('livereload')
-    .createServer({ extraExts: ['pug'] })
+    .createServer({ extraExts: ['pug'], usePolling: true })
     .watch([`${__dirname}/public`, `${__dirname}/views`])
 }
 
