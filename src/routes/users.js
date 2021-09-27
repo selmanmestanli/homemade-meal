@@ -23,6 +23,12 @@ router.get('/', async (req, res) => {
   res.send(await User.find(query))
 })
 
+/* POST create a user */
+router.post('/', async (req, res) => {
+  const createdUser = await User.create(req.body)
+  res.send(createdUser)
+})
+
 router.get('/initialize', async (req, res) => {
   const selman = await User.create({ name: 'selman', email: 'selman@gmail.com' })
   const armagan = await User.create({ name: 'armagan', email: 'armagan@gmail.com' })
@@ -69,12 +75,49 @@ router.get('/initialize', async (req, res) => {
   res.sendStatus(200)
 })
 
+router.post('/:userId/photos', async (req, res) => {
+  const user = await User.findById(req.params.userId)
+  const photo = await Photo.findById(req.body.photoId)
+
+  await user.addPhoto(photo)
+  res.sendStatus(200)
+})
+
+router.post('/:userId/likedPhotos', async (req, res) => {
+  const user = await User.findById(req.params.userId)
+  const photo = await Photo.findById(req.body.photoId)
+
+  await user.likePhoto(photo)
+  res.sendStatus(200)
+})
+
+router.post('/:userId/recipes', async (req, res) => {
+  const user = await User.findById(req.params.userId)
+  const recipe = await Recipe.findById(req.body.recipeId)
+
+  await user.addRecipe(recipe)
+  res.sendStatus(200)
+})
+
+router.post('/:userId/likedRecipes', async (req, res) => {
+  const user = await User.findById(req.params.userId)
+  const recipe = await Recipe.findById(req.body.recipeId)
+
+  await user.likeRecipe(recipe)
+  res.sendStatus(200)
+})
+
 router.get('/:userId', async (req, res) => {
   // const user = users[req.params.userId]
   const user = await User.findById(req.params.userId)
 
   if (user) res.render('user', { user })
   else res.sendStatus(404)
+})
+
+router.get('/:userId/json', async (req, res) => {
+  const user = await User.findById(req.params.userId)
+  res.send(user)
 })
 
 module.exports = router
