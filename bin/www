@@ -7,7 +7,7 @@
  */
 
 const app = require('../src/app')
-const debug = require('debug')('be103:server')
+const debug = require('debug')('homemade-meal:server')
 const http = require('http')
 
 /**
