@@ -123,4 +123,59 @@ describe('Users endpoints', () => {
     expect(finalUserWithRecipe.recipes[0].likedBy[0]._id).toBe(finalRecipeLikerUser._id)
     expect(finalRecipeLikerUser.likedRecipes[0]).toBe(finalUserWithRecipe.recipes[0]._id)
   })
+  /*
+  it('user should be able to like a comment', async () => {
+    // create a user
+    const userWithComment = (
+      await request(app)
+        .post('/users')
+        .send({
+          name: `CommentOwnerUser${Date.now()}`,
+          email: `CommentOwnerUser${Date.now()}@gmail.com`,
+          address: 'Leibzig',
+          postCode: 22345,
+        })
+    ).body
+    console.log('-------------userWithComment--', userWithComment)
+
+    // create a comment
+    const comment = (
+      await request(app)
+        .post('/comments')
+        .send({ comment: 'Here is my delicious baked salmon', author: { userWithComment } })
+    ).body
+    console.log('-------------comment--', comment)
+
+    // add the comment to that user
+    await request(app).post(`/users/${userWithComment._id}/comments`).send({ commentId: comment._id })
+
+    // create another user
+    const commentLikerUser = {
+      name: `CommentLikerUser${Date.now()}`,
+      email: `commentlikeruser${Date.now()}@gmail.com`,
+      address: 'Koln',
+      postCode: 55908,
+    }
+
+    const createdCommentLikerUser = (await request(app).post('/users').send(commentLikerUser)).body
+    console.log('-------------createdCommentLikerUser--', createdCommentLikerUser)
+
+    // like the recipe with that another user
+    await request(app).post(`/users/${createdCommentLikerUser._id}/likedComments`).send({ commentId: comment._id })
+
+    const finalUserWithComment = (await request(app).get(`/users/${userWithComment._id}/json`)).body
+    console.log('-------------finalUserWithComment--', finalUserWithComment)
+
+    const finalCommentLikerUser = (await request(app).get(`/users/${createdCommentLikerUser._id}/json`)).body
+    console.log('-------------finalCommentLikerUser--', finalCommentLikerUser)
+
+    expect(finalUserWithComment.comments.length).toBe(1)
+    expect(finalCommentLikerUser.likedComments.length).toBe(1)
+
+    console.log('finalUserWithComment.comments[0].likedBy[0]._id', finalUserWithComment.comments[0].likedBy[0]._id)
+
+    expect(finalUserWithComment.comments[0].likedBy[0]._id).toBe(finalCommentLikerUser._id)
+    expect(finalCommentLikerUser.likedComments[0]).toBe(finalUserWithComment.comments[0]._id)
+  })
+  */
 })

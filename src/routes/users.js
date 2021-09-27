@@ -107,6 +107,22 @@ router.post('/:userId/likedRecipes', async (req, res) => {
   res.sendStatus(200)
 })
 
+router.post('/:userId/comments', async (req, res) => {
+  const user = await User.findById(req.params.userId)
+  const comment = await Comment.findById(req.body.photoId)
+
+  await user.addComment(comment)
+  res.sendStatus(200)
+})
+
+router.post('/:userId/likedComments', async (req, res) => {
+  const user = await User.findById(req.params.userId)
+  const comment = await Comment.findById(req.body.photoId)
+
+  await user.likeComment(comment)
+  res.sendStatus(200)
+})
+
 router.get('/:userId', async (req, res) => {
   // const user = users[req.params.userId]
   const user = await User.findById(req.params.userId)
