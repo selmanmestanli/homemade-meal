@@ -1,5 +1,19 @@
-version: '3'
+version: "3"
 services:
+  frontend:
+    image: frontend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`homemade-meal.localhost`)"
+      - "traefik.http.routers.frontend.entrypoints=web"
+    ports:
+      - 8080
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
   backend:
     image: backend
     build:
