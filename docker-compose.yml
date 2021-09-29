@@ -24,6 +24,10 @@ services:
       # - MONGODB_PASSWORD=agiIJHbsGA6Pdymq
       # - MONGODB_DATABASE=selmanCoyotiv
       - MONGODB_CONNECTION_STRING=mongodb://mongo/homemade-meal
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=(Host(`homemade-meal.localhost`) && PathPrefix(`/api`))"
+      - "traefik.http.routers.backend.entrypoints=web"
     ports:
       - 3000:3000
       - 35729:35729
