@@ -2,7 +2,10 @@ const mongoose = require('mongoose')
 const autopopulate = require('mongoose-autopopulate')
 
 const recipeSchema = new mongoose.Schema({
-  recipename: String,
+  recipename: {
+    type: String,
+    required: true,
+  },
   likedBy: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -10,7 +13,10 @@ const recipeSchema = new mongoose.Schema({
       autopopulate: true,
     },
   ],
-  addedBy: String,
+  addedBy: {
+    type: String,
+    ref: 'User',
+  },
 })
 
 recipeSchema.plugin(autopopulate)

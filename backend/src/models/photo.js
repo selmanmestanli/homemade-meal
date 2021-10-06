@@ -2,7 +2,10 @@ const mongoose = require('mongoose')
 const autopopulate = require('mongoose-autopopulate')
 
 const photoSchema = new mongoose.Schema({
-  photoname: String,
+  photoname: {
+    type: String,
+    required: true,
+  },
   likedBy: [
     {
       type: mongoose.Schema.Types.ObjectId,

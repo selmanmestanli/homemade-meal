@@ -25,7 +25,12 @@ router.get('/', async (req, res) => {
 
 /* POST create a user */
 router.post('/', async (req, res) => {
-  const createdUser = await User.create(req.body)
+  const userToCreate = {
+    name: req.body.name,
+    email: req.body.email,
+  }
+
+  const createdUser = await User.create(userToCreate)
   res.send(createdUser)
 })
 
@@ -68,7 +73,7 @@ router.get('/initialize', async (req, res) => {
   await selman.addComment(commentSelman2)
   await neslihan.likeComment(commentSelman2)
 
-  const replyNeslihan = await Reply.create({ reply: 'Tastes great!' })
+  const replyNeslihan = await Reply.create({ comment: 'Taste my delicious baked Salmon', reply: 'Tastes great!' })
   await neslihan.replyComment(commentSelman, replyNeslihan)
   await selman.likeReply(replyNeslihan)
   await armagan.likeReply(replyNeslihan)
@@ -127,7 +132,7 @@ router.get('/:userId', async (req, res) => {
   // const user = users[req.params.userId]
   const user = await User.findById(req.params.userId)
 
-  if (user) res.render('user', { user })
+  if (user) res.send(user)
   else res.sendStatus(404)
 })
 

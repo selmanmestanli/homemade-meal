@@ -5,7 +5,11 @@ const Comment = require('../models/comment')
 
 /* POST create a comment */
 router.post('/', async (req, res) => {
-  const createdComment = await Comment.create(req.body)
+  const commentToCreate = {
+    comment: req.body.comment,
+  }
+
+  const createdComment = await Comment.create(commentToCreate)
   res.send(createdComment)
 })
 

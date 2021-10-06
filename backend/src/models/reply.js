@@ -2,7 +2,15 @@ const mongoose = require('mongoose')
 const autopopulate = require('mongoose-autopopulate')
 
 const replySchema = new mongoose.Schema({
-  reply: String,
+  reply: {
+    type: String,
+    required: true,
+  },
+  comment: {
+    type: String,
+    ref: 'Comment',
+    required: true,
+  },
   likedBy: [
     {
       type: mongoose.Schema.Types.ObjectId,
