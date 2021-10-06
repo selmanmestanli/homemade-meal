@@ -5,7 +5,11 @@ const Recipe = require('../models/recipe')
 
 /* POST create a recipe */
 router.post('/', async (req, res) => {
-  const createdRecipe = await Recipe.create(req.body)
+  const recipeToCreate = {
+    recipename: req.body.recipename,
+  }
+
+  const createdRecipe = await Recipe.create(recipeToCreate)
   res.send(createdRecipe)
 })
 
