@@ -10,7 +10,7 @@ describe('Users endpoints', () => {
       postCode: 10589,
     }
 
-    const createdUser = (await request(app).post('/users').send(userToCreate)).body
+    const createdUser = (await request(app).post('/api/users').send(userToCreate)).body
     expect(createdUser.name).toBe(userToCreate.name)
     expect(createdUser.email).toBe(userToCreate.email)
     expect(createdUser.address).toBe(userToCreate.address)
@@ -18,7 +18,7 @@ describe('Users endpoints', () => {
   })
 
   it('get request to /users should list users', async () => {
-    const userList = (await request(app).get('/users')).body
+    const userList = (await request(app).get('/api/users')).body
     const usersExist = userList.length > 0
 
     expect(usersExist).toBe(true)
@@ -26,13 +26,13 @@ describe('Users endpoints', () => {
 
   it('user should be able to like a photo', async () => {
     // create a photo
-    const photo = (await request(app).post('/photos').send({ photoname: 'homemade-meal-test.png' })).body
+    const photo = (await request(app).post('/api/photos').send({ photoname: 'homemade-meal-test.png' })).body
     console.log('-------------photo--', photo)
 
     // create a user
     const userWithPhoto = (
       await request(app)
-        .post('/users')
+        .post('/api/users')
         .send({
           name: `PhotoOwnerUser${Date.now()}`,
           email: `PhotoOwnerUser${Date.now()}@gmail.com`,
@@ -43,7 +43,7 @@ describe('Users endpoints', () => {
     console.log('-------------userWithPhoto--', userWithPhoto)
 
     // add the photo to that user
-    await request(app).post(`/users/${userWithPhoto._id}/photos`).send({ photoId: photo._id })
+    await request(app).post(`/api/users/${userWithPhoto._id}/photos`).send({ photoId: photo._id })
 
     // create another user
     const likerUser = {
@@ -53,16 +53,16 @@ describe('Users endpoints', () => {
       postCode: 45678,
     }
 
-    const createdLikerUser = (await request(app).post('/users').send(likerUser)).body
+    const createdLikerUser = (await request(app).post('/api/users').send(likerUser)).body
     console.log('-------------createdLikerUser--', createdLikerUser)
 
     // like the photo with that another user
-    await request(app).post(`/users/${createdLikerUser._id}/likedPhotos`).send({ photoId: photo._id })
+    await request(app).post(`/api/users/${createdLikerUser._id}/likedPhotos`).send({ photoId: photo._id })
 
-    const finalUserWithPhoto = (await request(app).get(`/users/${userWithPhoto._id}/json`)).body
+    const finalUserWithPhoto = (await request(app).get(`/api/users/${userWithPhoto._id}/json`)).body
     console.log('-------------finalUserWithPhoto--', finalUserWithPhoto)
 
-    const finalLikerUser = (await request(app).get(`/users/${createdLikerUser._id}/json`)).body
+    const finalLikerUser = (await request(app).get(`/api/users/${createdLikerUser._id}/json`)).body
     console.log('-------------finalLikerUser--', finalLikerUser)
 
     expect(finalUserWithPhoto.photos.length).toBe(1)
@@ -76,13 +76,13 @@ describe('Users endpoints', () => {
 
   it('user should be able to like a recipe', async () => {
     // create a recipe
-    const recipe = (await request(app).post('/recipes').send({ recipename: 'recipeBakedSalmon' })).body
+    const recipe = (await request(app).post('/api/recipes').send({ recipename: 'recipeBakedSalmon' })).body
     console.log('-------------recipe--', recipe)
 
     // create a user
     const userWithRecipe = (
       await request(app)
-        .post('/users')
+        .post('/api/users')
         .send({
           name: `RecipeOwnerUser${Date.now()}`,
           email: `RecipeOwnerUser${Date.now()}@gmail.com`,
@@ -93,7 +93,7 @@ describe('Users endpoints', () => {
     console.log('-------------userWithRecipe--', userWithRecipe)
 
     // add the recipe to that user
-    await request(app).post(`/users/${userWithRecipe._id}/recipes`).send({ recipeId: recipe._id })
+    await request(app).post(`/api/users/${userWithRecipe._id}/recipes`).send({ recipeId: recipe._id })
 
     // create another user
     const recipeLikerUser = {
@@ -103,16 +103,16 @@ describe('Users endpoints', () => {
       postCode: 55908,
     }
 
-    const createdRecipeLikerUser = (await request(app).post('/users').send(recipeLikerUser)).body
+    const createdRecipeLikerUser = (await request(app).post('/api/users').send(recipeLikerUser)).body
     console.log('-------------createdRecipeLikerUser--', createdRecipeLikerUser)
 
     // like the recipe with that another user
-    await request(app).post(`/users/${createdRecipeLikerUser._id}/likedRecipes`).send({ recipeId: recipe._id })
+    await request(app).post(`/api/users/${createdRecipeLikerUser._id}/likedRecipes`).send({ recipeId: recipe._id })
 
-    const finalUserWithRecipe = (await request(app).get(`/users/${userWithRecipe._id}/json`)).body
+    const finalUserWithRecipe = (await request(app).get(`/api/users/${userWithRecipe._id}/json`)).body
     console.log('-------------finalUserWithRecipe--', finalUserWithRecipe)
 
-    const finalRecipeLikerUser = (await request(app).get(`/users/${createdRecipeLikerUser._id}/json`)).body
+    const finalRecipeLikerUser = (await request(app).get(`/api/users/${createdRecipeLikerUser._id}/json`)).body
     console.log('-------------finalRecipeLikerUser--', finalRecipeLikerUser)
 
     expect(finalUserWithRecipe.recipes.length).toBe(1)
