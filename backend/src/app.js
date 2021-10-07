@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
+const passport = require('passport')
+const User = require('./models/user')
 
 const mongooseConnection = require('./database-connection')
 
@@ -43,6 +45,14 @@ app.use(
     },
   })
 )
+
+app.use(passport.initialize())
+app.use(passport.session())
+
+passport.use(User.createStrategy())
+
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/api/', indexRouter)
