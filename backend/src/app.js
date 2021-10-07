@@ -15,6 +15,7 @@ const usersRouter = require('./routes/users')
 const photosRouter = require('./routes/photos')
 const recipesRouter = require('./routes/recipes')
 const commentRouter = require('./routes/comment')
+const accountRouter = require('./routes/account')
 
 const app = express()
 
@@ -35,6 +36,7 @@ app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
+
 app.use(
   session({
     secret: ['thisisnotasupersecuresecretsecret', 'thisisanothersupernotsosecretsecret'],
@@ -53,9 +55,11 @@ passport.use(User.createStrategy())
 
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
+
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/api/', indexRouter)
+app.use('/api/account', accountRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/photos', photosRouter)
 app.use('/api/recipes', recipesRouter)
