@@ -19,52 +19,56 @@ const userSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Photo',
-      autopopulate: true,
+      autopopulate: { maxDepth: 2 },
     },
   ],
   recipes: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Recipe',
-      autopopulate: true,
+      autopopulate: { maxDepth: 2 },
     },
   ],
   comments: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Comment',
-      autopopulate: true,
+      autopopulate: { maxDepth: 2 },
     },
   ],
   replies: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Reply',
-      autopopulate: true,
+      autopopulate: { maxDepth: 2 },
     },
   ],
   likedPhotos: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Photo',
+      autopopulate: { maxDepth: 2 },
     },
   ],
   likedRecipes: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Recipe',
+      autopopulate: { maxDepth: 2 },
     },
   ],
   likedComments: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Comment',
+      autopopulate: { maxDepth: 2 },
     },
   ],
   likedReplies: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Reply',
+      autopopulate: { maxDepth: 2 },
     },
   ],
 })

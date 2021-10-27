@@ -10,14 +10,14 @@ const commentSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      autopopulate: true,
+      autopopulate: { maxDepth: 2 },
     },
   ],
   repliedBy: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      autopopulate: true,
+      autopopulate: { maxDepth: 2 },
     },
   ],
   author: String,
